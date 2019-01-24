@@ -19,7 +19,6 @@ class CreateAccountActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_account)
 
-        var database = FirebaseDatabase.getInstance().reference
         //var database2 = FirebaseDatabase.getInstance().reference.child("users")
 
         btnCreateAccount.setOnClickListener{view ->
@@ -47,11 +46,16 @@ class CreateAccountActivity : AppCompatActivity() {
                 if (task.isSuccessful){
                     //go to next activity here if success
                     showMessage(view, "Account created!")
-                    var user_id = fbAuth.currentUser!!.uid
-                    var database curent_db = database2.child(user_id)
-                    database.child("users").setValue(email)
-                    //var intent = Intent(this, ContactsPageActivity::class.java)
-                    //startActivity(intent)
+                    var database = FirebaseDatabase.getInstance().reference
+                    database.child("user").child(email).setValue(fbAuth.currentUser!!.uid)
+                    //database.child("user").child(fbAuth.currentUser!!.uid).setValue()
+                    //var user_id = fbAuth.currentUser!!.uid
+                    //val key = database.child("user").push().key
+                    //it.uuid = key
+                    //var database curent_db = database2.child(user_id)
+
+                    var intent = Intent(this, ContactsPageActivity::class.java)
+                    startActivity(intent)
                 } else {
                     showMessage(view, "Error: ${task.exception?.message}")
                 }
@@ -61,4 +65,10 @@ class CreateAccountActivity : AppCompatActivity() {
     fun showMessage(view: View, message: String) {
         Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE).setAction("Action", null).show()
     }
+
+    @IgnoreExtraProperties
+    data class User(
+        var username: String? = "",
+        var email: String? = ""
+    )
 }
