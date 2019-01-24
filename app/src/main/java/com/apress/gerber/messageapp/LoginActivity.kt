@@ -23,7 +23,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         btnLoginCreateAccount.setOnClickListener { view ->
-            var intent = Intent(this, CreateAccountActivity::class.java)
+            var intent = Intent(this, MessagesActivity::class.java)
             startActivity(intent)
         }
     }
