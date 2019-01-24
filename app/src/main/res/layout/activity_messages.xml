@@ -14,13 +14,13 @@
             android:ems="10"
             android:id="@+id/txtMessage" android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent" android:textSize="24sp" android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/button" android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/btnSendMessage" android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent" android:hint="Type a message..."/>
     <Button
             android:text=">"
             android:layout_width="48dp"
             android:layout_height="49dp"
-            android:id="@+id/button" android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/btnSendMessage" android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"/>
     <LinearLayout
             android:orientation="vertical"
@@ -32,6 +32,7 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="vertical"/>
+                android:scrollbars="vertical" tools:reverseLayout="true" app:reverseLayout="true"
+                tools:listitem="@layout/recycler_view_item" app:stackFromEnd="false"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
