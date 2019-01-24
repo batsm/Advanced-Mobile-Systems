@@ -23,6 +23,12 @@ class LoginActivity : AppCompatActivity() {
         }
 
         btnLoginCreateAccount.setOnClickListener { view ->
+            var intent = Intent(this, CreateAccountActivity::class.java)
+            intent.putExtra("id", fbAuth.currentUser?.email)
+            startActivity(intent)
+        }
+
+        btnBypass.setOnClickListener { view ->
             var intent = Intent(this, ContactsPageActivity::class.java)
             intent.putExtra("id", fbAuth.currentUser?.email)
             startActivity(intent)

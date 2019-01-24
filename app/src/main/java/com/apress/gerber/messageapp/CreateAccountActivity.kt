@@ -9,17 +9,18 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_create_account.*
 import com.google.firebase.database.*
 
-
-
 class CreateAccountActivity : AppCompatActivity() {
 
     var fbAuth = FirebaseAuth.getInstance()
+
+    private lateinit var database: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_account)
 
         var database = FirebaseDatabase.getInstance().reference
+        //var database2 = FirebaseDatabase.getInstance().reference.child("users")
 
         btnCreateAccount.setOnClickListener{view ->
             if (txtPassword1.text.toString() == txtPassword2.text.toString())
@@ -46,7 +47,11 @@ class CreateAccountActivity : AppCompatActivity() {
                 if (task.isSuccessful){
                     //go to next activity here if success
                     showMessage(view, "Account created!")
-
+                    var user_id = fbAuth.currentUser!!.uid
+                    var database curent_db = database2.child(user_id)
+                    database.child("users").setValue(email)
+                    //var intent = Intent(this, ContactsPageActivity::class.java)
+                    //startActivity(intent)
                 } else {
                     showMessage(view, "Error: ${task.exception?.message}")
                 }
