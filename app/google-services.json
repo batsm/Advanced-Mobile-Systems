@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "171546214701",
+    "firebase_url": "https://messageapp-db4ef.firebaseio.com",
+    "project_id": "messageapp-db4ef",
+    "storage_bucket": "messageapp-db4ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:171546214701:android:998a48cc20652bf0",
+        "android_client_info": {
+          "package_name": "com.apress.gerber.messageapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "171546214701-4s87ebbu44ae4sdtd6mp7cbmjci7t199.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.apress.gerber.messageapp",
+            "certificate_hash": "e2a9011a62dea39d48ddbe8a22905652d0dee182"
+          }
+        },
+        {
+          "client_id": "171546214701-u7jt6td4brs4bq7oseodo8k1tlhvmg4g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFcPlFEp5EauPvpHkb2VPfXvCJhf105ww"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "171546214701-u7jt6td4brs4bq7oseodo8k1tlhvmg4g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
