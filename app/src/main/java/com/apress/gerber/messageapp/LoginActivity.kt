@@ -23,7 +23,8 @@ class LoginActivity : AppCompatActivity() {
         }
 
         btnLoginCreateAccount.setOnClickListener { view ->
-            var intent = Intent(this, MessagesActivity::class.java)
+            var intent = Intent(this, ContactsPageActivity::class.java)
+            intent.putExtra("id", fbAuth.currentUser?.email)
             startActivity(intent)
         }
     }
@@ -35,10 +36,9 @@ class LoginActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     showMessage(view, "Logged in!")
-                    /* Go to main activity here
-                    var intent = Intent(this, LoggedInActivity::class.java)
+                    var intent = Intent(this, ContactsPageActivity::class.java)
                     intent.putExtra("id", fbAuth.currentUser?.email)
-                    startActivity(intent)*/
+                    startActivity(intent)
                 } else {
                     showMessage(view, "Error: ${task.exception?.message}")
                 }

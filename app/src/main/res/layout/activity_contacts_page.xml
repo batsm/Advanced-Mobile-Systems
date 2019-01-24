@@ -11,9 +11,9 @@
             android:text="Contacts:"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView7" android:layout_marginTop="8dp"
+            android:id="@+id/txtContactText" android:layout_marginTop="8dp"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" android:textSize="36sp"/>
+            android:layout_marginStart="8dp" android:textSize="12sp"/>
     <Button
             android:text="Add Contact"
             android:layout_width="wrap_content"

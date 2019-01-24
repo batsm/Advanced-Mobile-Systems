@@ -7,6 +7,9 @@ import android.support.design.widget.Snackbar
 import android.view.View
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_create_account.*
+import com.google.firebase.database.*
+
+
 
 class CreateAccountActivity : AppCompatActivity() {
 
@@ -15,6 +18,8 @@ class CreateAccountActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_account)
+
+        var database = FirebaseDatabase.getInstance().reference
 
         btnCreateAccount.setOnClickListener{view ->
             if (txtPassword1.text.toString() == txtPassword2.text.toString())
@@ -41,6 +46,7 @@ class CreateAccountActivity : AppCompatActivity() {
                 if (task.isSuccessful){
                     //go to next activity here if success
                     showMessage(view, "Account created!")
+
                 } else {
                     showMessage(view, "Error: ${task.exception?.message}")
                 }
