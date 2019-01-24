@@ -9,6 +9,11 @@ import android.widget.TextView
 
 class UsersAdapter(val messages: ArrayList<String>) : RecyclerView.Adapter<UsersAdapter.ViewHolder>() {
 
+    fun addMessage(message: String){
+        messages.add(message)
+        notifyItemInserted(messages.size)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.user_row, parent, false)
         return ViewHolder(view)
@@ -24,8 +29,4 @@ class UsersAdapter(val messages: ArrayList<String>) : RecyclerView.Adapter<Users
         val firstName: TextView = itemView.findViewById(R.id.firstName)
     }
 
-    fun addMessage(message: String){
-        messages.add(message)
-        notifyDataSetChanged()
-    }
 }

@@ -18,6 +18,7 @@ class AddContact : AppCompatActivity() {
 
     var fbAuth = FirebaseAuth.getInstance()
     private lateinit var database: DatabaseReference
+    public var convoID: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,9 +49,10 @@ class AddContact : AppCompatActivity() {
                             }
                         }
                        if (foundUser){
-                          /* userdatabase.child(otherUserID).child(userEmail).child(fbAuth.currentUser!!.uid)//.setValue(fbAuth.currentUser!!.uid)
-                           userdatabase.child(user!!.email.toString()).child(fbAuth.currentUser!!.uid)//setValue(fbAuth.currentUser!!.uid)
-                           conversationdatabase.child(fbAuth.currentUser!!.uid).setValue("New Conversation")*/
+                           userdatabase.child(userEmail).child(convoID).setValue("ConversationID")//.setValue(fbAuth.currentUser!!.uid)
+                           userdatabase.child(convoID).setValue("ConversationID")//setValue(fbAuth.currentUser!!.uid)
+                           //conversationdatabase.child(fbAuth.currentUser!!.uid).setValue("New Conversation")
+                           conversationdatabase.child(convoID).child("1").setValue("Conversation Started")
                            showMessage(view, "User Added!")
                        } else {
                            //showMessage(view, "Error: User not found")
@@ -61,6 +63,21 @@ class AddContact : AppCompatActivity() {
         }
     }
 
+
+    fun getNewConvoID(convoData: DatabaseReference) {
+        //createConversation(conversationdatabase)
+        convoData.addValueEventListener(object: ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot!!.exists()) {
+                    convoID = dataSnapshot.key + 1
+                }
+            }
+        })
+    }
 
     fun showMessage(view: View, message: String) {
         Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE).setAction("Action", null).show()
