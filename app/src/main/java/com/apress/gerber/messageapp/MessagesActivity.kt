@@ -34,12 +34,12 @@ class MessagesActivity : AppCompatActivity() {
         database = FirebaseDatabase.getInstance().reference
         var chatDatabase = database.child("messages")
 
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = UsersAdapter(chatMessages)
 
         val adapters: UsersAdapter by lazy(LazyThreadSafetyMode.NONE) {
             UsersAdapter(chatMessages)
         }
+
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
         chatDatabase.addValueEventListener(object: ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
@@ -48,27 +48,31 @@ class MessagesActivity : AppCompatActivity() {
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot!!.exists()) {
+                    adapters.clearMessages()
+                    recyclerView.adapter = UsersAdapter(chatMessages)
+
                     for (i in dataSnapshot.children) {
                         newMessage = i.value.toString()
-                        //chatMessages.add(newMessage)
                         adapters.addMessage(newMessage)
                         messageKey = i.key!!.toInt()
                         messageKey++
-                        //recyclerView.layoutManager = LinearLayoutManager(null)
-                        //recyclerView.adapter = UsersAdapter.
                     }
+                    var scrollNum = adapters.adapterSize() - 1
+                    recyclerView.scrollToPosition(scrollNum)
                 }
             }
 
         })
         //linearLayoutManager = LinearLayoutManager(this)
-        
 
         //recyclerView.scrollToPosition(adapter.itemCount - 1)
         //adapter = RecyclerAdapter("Test")
 
         btnSendMessage.setOnClickListener { view ->
             chatDatabase.child(messageKey.toString()).setValue(txtMessage.text.toString())
+
+            //showMessage(view, adapters.adapterSize().toString())
+            txtMessage.setText("")
             //adapters.addMessage(newMessage)
             //chatMessages.add(txtMessage.text.toString())
 
@@ -79,6 +83,8 @@ class MessagesActivity : AppCompatActivity() {
             //recyclerView.scrollToPosition(adapter.itemCount)
 
         }
+
+        //txtMessage.requestFocus()
     }
 
     fun showMessage(view: View, message: String) {

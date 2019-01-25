@@ -4,6 +4,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.util.Log
 import android.view.View
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_create_account.*
@@ -14,6 +15,8 @@ class CreateAccountActivity : AppCompatActivity() {
     var fbAuth = FirebaseAuth.getInstance()
 
     private lateinit var database: DatabaseReference
+    var re = Regex("[^a-zA-Z0-9 -]")
+    var usernameTaken = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,26 +43,57 @@ class CreateAccountActivity : AppCompatActivity() {
 
     fun createAccount(view: View, email: String, password: String) {
         showMessage(view, "Creating Account...")
+        database = FirebaseDatabase.getInstance().reference
+        usernameTaken = false
 
-        fbAuth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful){
-                    //go to next activity here if success
-                    showMessage(view, "Account created!")
-                    var database = FirebaseDatabase.getInstance().reference
-                    database.child("user").child(email).setValue(fbAuth.currentUser!!.uid)
-                    //database.child("user").child(fbAuth.currentUser!!.uid).setValue()
-                    //var user_id = fbAuth.currentUser!!.uid
-                    //val key = database.child("user").push().key
-                    //it.uuid = key
-                    //var database curent_db = database2.child(user_id)
+        database.child("users").addValueEventListener(object: ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+            }
 
-                    var intent = Intent(this, ContactsPageActivity::class.java)
-                    startActivity(intent)
-                } else {
-                    showMessage(view, "Error: ${task.exception?.message}")
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (i in dataSnapshot.children){
+                    Log.d("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII Snapshot", i.key.toString())
+                    if (txtUsername.text.toString() == i.key.toString())
+                    {
+                        showMessage(view, "Error: Username already taken")
+                        usernameTaken = true
+                        Log.d("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII MATCH", i.key.toString())
+                    }
                 }
             }
+        })
+
+        if (!usernameTaken) {
+            fbAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        //go to next activity here if success
+
+                        //database = FirebaseDatabase.getInstance().reference
+
+                        var UsernameEmail = re.replace(email, "")
+                        database.child("users").child(txtUsername.text.toString())
+                            .setValue(UsernameEmail)//.child(UsernameEmail)//.push().setValue(email)
+                        showMessage(view, "Account created!")
+
+                        /*
+                    var database = FirebaseDatabase.getInstance().getReference("user")
+                    database.child(fbAuth.currentUser!!.uid).setValue(email)//child("user").child(email).setValue(fbAuth.currentUser!!.uid)
+                    */
+
+                        //database.child("user").child(fbAuth.currentUser!!.uid).setValue()
+                        //var user_id = fbAuth.currentUser!!.uid
+                        //val key = database.child("user").push().key
+                        //it.uuid = key
+                        //var database curent_db = database2.child(user_id)
+
+                        var intent = Intent(this, ContactsPageActivity::class.java)
+                        startActivity(intent)
+                    } else {
+                        showMessage(view, "Error: ${task.exception?.message}")
+                    }
+                }
+        }
     }
 
     fun showMessage(view: View, message: String) {
