@@ -32,7 +32,7 @@ class ContactAdapter (private val contactList: ArrayList<ContactData>): Recycler
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
-        val mainTitle = itemView.findViewById<TextView>(R.id.txtContact)//itemView.findViewById<TextView>(R.id.text)!!
+        val mainTitle = itemView.findViewById<TextView>(R.id.txtContact)
 
         init {
             itemView.setOnClickListener(this)

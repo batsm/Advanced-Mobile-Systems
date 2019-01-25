@@ -16,14 +16,6 @@
             android:textSize="24sp"
             app:layout_constraintTop_toBottomOf="@+id/textView5" android:layout_marginTop="8dp"/>
     <Button
-            android:text="Bypass"
-            android:layout_width="250dp"
-            android:layout_height="75dp"
-            android:id="@+id/btnBypass" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.503" app:layout_constraintEnd_toEndOf="parent"
-            android:textSize="24sp"
-            app:layout_constraintTop_toBottomOf="@+id/btnLoginCreateAccount" android:layout_marginTop="12dp"/>
-    <Button
             android:text="Login"
             android:layout_width="250dp"
             android:layout_height="75dp"

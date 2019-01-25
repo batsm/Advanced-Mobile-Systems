@@ -14,14 +14,9 @@ import kotlinx.android.synthetic.main.activity_add_contact.*
 
 class AddContact : AppCompatActivity() {
 
-    //private lateinit var database: DatabaseReference
-    //database = FirebaseDatabase.getInstance().reference
-
     var fbAuth = FirebaseAuth.getInstance()
     private lateinit var database: DatabaseReference
-    //public var convoID: String = ""
     private var combinedUsername = "null"
-
     var re = Regex("[^a-zA-Z0-9 -]")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,9 +24,6 @@ class AddContact : AppCompatActivity() {
         setContentView(R.layout.activity_add_contact)
 
         database = FirebaseDatabase.getInstance().reference
-
-        var userdatabase = FirebaseDatabase.getInstance().getReference("user").push()//database.child("user")
-        var conversationdatabase = FirebaseDatabase.getInstance().getReference("conversations").push()//database.child("conversation")
 
         btnAddContact.setOnClickListener { view ->
             var foundUser = false
@@ -61,7 +53,6 @@ class AddContact : AppCompatActivity() {
                            } else {
                                "$theirUsername-$myUsername"
                            }
-                           Log.d("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE", "start of convo")
                            database.child("users").child(myUsername).child(combinedUsername).setValue("Chat")
                            database.child("users").child(theirUsername).child(combinedUsername).setValue("Chat")
                            database.child("chat").child(combinedUsername).push().setValue("")

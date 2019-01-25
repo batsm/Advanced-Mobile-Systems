@@ -16,13 +16,10 @@ class CreateAccountActivity : AppCompatActivity() {
 
     private lateinit var database: DatabaseReference
     var re = Regex("[^a-zA-Z0-9 -]")
-    var usernameTaken = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_account)
-
-        //var database2 = FirebaseDatabase.getInstance().reference.child("users")
 
         btnCreateAccount.setOnClickListener{view ->
             if (txtPassword1.text.toString() == txtPassword2.text.toString())
@@ -44,27 +41,13 @@ class CreateAccountActivity : AppCompatActivity() {
     fun createAccount(view: View, email: String, password: String) {
         showMessage(view, "Creating Account...")
         database = FirebaseDatabase.getInstance().reference
-        usernameTaken = false
 
             fbAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         var UsernameEmail = re.replace(email, "")
                         database.child("users").child(UsernameEmail).push().setValue(email)
-                            //.setValue(UsernameEmail)//.child(UsernameEmail)//
                         showMessage(view, "Account created!")
-
-                        /*
-                    var database = FirebaseDatabase.getInstance().getReference("user")
-                    database.child(fbAuth.currentUser!!.uid).setValue(email)//child("user").child(email).setValue(fbAuth.currentUser!!.uid)
-                    */
-
-                        //database.child("user").child(fbAuth.currentUser!!.uid).setValue()
-                        //var user_id = fbAuth.currentUser!!.uid
-                        //val key = database.child("user").push().key
-                        //it.uuid = key
-                        //var database curent_db = database2.child(user_id)
-
                         var intent = Intent(this, ContactsPageActivity::class.java)
                         startActivity(intent)
                     } else {
@@ -76,10 +59,4 @@ class CreateAccountActivity : AppCompatActivity() {
     fun showMessage(view: View, message: String) {
         Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE).setAction("Action", null).show()
     }
-
-    @IgnoreExtraProperties
-    data class User(
-        var username: String? = "",
-        var email: String? = ""
-    )
 }

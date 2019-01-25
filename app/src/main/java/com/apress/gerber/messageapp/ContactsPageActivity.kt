@@ -28,7 +28,6 @@ class ContactsPageActivity : AppCompatActivity() {
         setContentView(R.layout.activity_contacts_page)
 
         database = FirebaseDatabase.getInstance().reference
-        val user = FirebaseAuth.getInstance().currentUser
         val adapter = ContactAdapter(contacts)
         val userEmail = fbAuth?.currentUser
         var myUsername = re.replace(userEmail!!.email.toString(), "")
@@ -58,9 +57,5 @@ class ContactsPageActivity : AppCompatActivity() {
                 contactRecyclerView.adapter = ContactAdapter(contacts)
             }
         })
-    }
-
-    fun showMessage(view: View, message: String) {
-        Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE).setAction("Action", null).show()
     }
 }

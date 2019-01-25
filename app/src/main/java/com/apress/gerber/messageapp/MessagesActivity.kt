@@ -15,37 +15,30 @@ import java.util.*
 
 class MessagesActivity : AppCompatActivity() {
 
-    //private var messageList: ArrayList<Photo> = ArrayList()
-
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var adapter: RecyclerAdapter
 
     var fbAuth = FirebaseAuth.getInstance()
     private lateinit var database: DatabaseReference
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_messages)
-        val chatMessages: ArrayList<String> = ArrayList()
-        var messageKey: Int = 0
-        var newMessage: String = ""
-        var chatName: String = ""
-        var recieverEmail = otherUserEmail
-        var re = Regex("[^a-zA-Z0-9 -]")
-        val userEmail = re.replace(fbAuth?.currentUser!!.email.toString(), "")
-
-        chatName = if (userEmail < recieverEmail){
-            "$userEmail-$recieverEmail"
-        }else{
-            "$recieverEmail-$userEmail"
-        }
-
-        txtChatName.setText(userEmail)
 
         database = FirebaseDatabase.getInstance().reference
-        //var chatDatabase = database.child("messages")
+        val chatMessages: ArrayList<String> = ArrayList()
+        var newMessage: String = ""
+        var chatName: String = ""
+        var receiverEmail = otherUserEmail
+        var re = Regex("[^a-zA-Z0-9 -]")
+        val userEmail = re.replace(fbAuth?.currentUser!!.email.toString(), "")
+        txtChatName.setText(receiverEmail)
+
+        chatName = if (userEmail < receiverEmail){
+            "$userEmail-$receiverEmail"
+        }else{
+            "$receiverEmail-$userEmail"
+        }
 
         val adapters: UsersAdapter by lazy(LazyThreadSafetyMode.NONE) {
             UsersAdapter(chatMessages)
@@ -65,8 +58,6 @@ class MessagesActivity : AppCompatActivity() {
                     for (i in dataSnapshot.children) {
                         newMessage = i.value.toString()
                         adapters.addMessage(newMessage)
-                        //messageKey = i.value!!.toInt()
-                        //messageKey++
                     }
                     var scrollNum = adapters.adapterSize() - 1
                     recyclerView.scrollToPosition(scrollNum)
@@ -74,10 +65,6 @@ class MessagesActivity : AppCompatActivity() {
             }
 
         })
-        //linearLayoutManager = LinearLayoutManager(this)
-
-        //recyclerView.scrollToPosition(adapter.itemCount - 1)
-        //adapter = RecyclerAdapter("Test")
 
         btnSendMessage.setOnClickListener { view ->
             if (txtMessage.text.toString() != "") {
@@ -85,11 +72,5 @@ class MessagesActivity : AppCompatActivity() {
                 txtMessage.setText("")
             }
         }
-
-        //txtMessage.requestFocus()
-    }
-
-    fun showMessage(view: View, message: String) {
-        Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE).setAction("Action", null).show()
     }
 }
