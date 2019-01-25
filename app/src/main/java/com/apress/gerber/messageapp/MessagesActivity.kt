@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_messages.*
@@ -30,10 +31,21 @@ class MessagesActivity : AppCompatActivity() {
         val chatMessages: ArrayList<String> = ArrayList()
         var messageKey: Int = 0
         var newMessage: String = ""
+        var chatName: String = ""
+        var recieverEmail = otherUserEmail
+        var re = Regex("[^a-zA-Z0-9 -]")
+        val userEmail = re.replace(fbAuth?.currentUser!!.email.toString(), "")
+
+        chatName = if (userEmail < recieverEmail){
+            "$userEmail-$recieverEmail"
+        }else{
+            "$recieverEmail-$userEmail"
+        }
+
+        txtChatName.setText(userEmail)
 
         database = FirebaseDatabase.getInstance().reference
-        var chatDatabase = database.child("messages")
-
+        //var chatDatabase = database.child("messages")
 
         val adapters: UsersAdapter by lazy(LazyThreadSafetyMode.NONE) {
             UsersAdapter(chatMessages)
@@ -41,9 +53,8 @@ class MessagesActivity : AppCompatActivity() {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        chatDatabase.addValueEventListener(object: ValueEventListener {
+        database.child("chat").child(chatName).addValueEventListener(object: ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -54,8 +65,8 @@ class MessagesActivity : AppCompatActivity() {
                     for (i in dataSnapshot.children) {
                         newMessage = i.value.toString()
                         adapters.addMessage(newMessage)
-                        messageKey = i.key!!.toInt()
-                        messageKey++
+                        //messageKey = i.value!!.toInt()
+                        //messageKey++
                     }
                     var scrollNum = adapters.adapterSize() - 1
                     recyclerView.scrollToPosition(scrollNum)
@@ -69,19 +80,10 @@ class MessagesActivity : AppCompatActivity() {
         //adapter = RecyclerAdapter("Test")
 
         btnSendMessage.setOnClickListener { view ->
-            chatDatabase.child(messageKey.toString()).setValue(txtMessage.text.toString())
-
-            //showMessage(view, adapters.adapterSize().toString())
-            txtMessage.setText("")
-            //adapters.addMessage(newMessage)
-            //chatMessages.add(txtMessage.text.toString())
-
-            //recyclerView.layoutManager = LinearLayoutManager(this)
-            //recyclerView.adapter = UsersAdapter(chatMessages)
-            //var temp1 = testMessages.size + 1
-            //testMessages[temp1] = txtMessage.text.toString()
-            //recyclerView.scrollToPosition(adapter.itemCount)
-
+            if (txtMessage.text.toString() != "") {
+                database.child("chat").child(chatName).push().setValue(txtMessage.text.toString())
+                txtMessage.setText("")
+            }
         }
 
         //txtMessage.requestFocus()

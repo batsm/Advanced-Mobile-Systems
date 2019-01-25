@@ -13,27 +13,26 @@
             android:layout_height="wrap_content"
             android:id="@+id/txtContactText" android:layout_marginTop="8dp"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" android:textSize="12sp"/>
+            android:layout_marginStart="8dp" android:textSize="30sp"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/txtLoggedInName"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent" android:textColor="@color/colorAccent"/>
     <Button
             android:text="Add Contact"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/btnAddContactsPage" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.578" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="500dp" app:layout_constraintTop_toTopOf="parent" android:textSize="36sp"/>
-    <Button
-            android:text="Messages Page"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnMessagesPage" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.648" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="56dp" android:textSize="36sp"
-            app:layout_constraintTop_toBottomOf="@+id/btnAddContactsPage"/>
+            android:textSize="36sp"
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"/>
     <android.support.v7.widget.RecyclerView
-            android:layout_width="395dp"
-            android:layout_height="460dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:id="@+id/contactRecyclerView" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtContactText" android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/btnAddContactsPage"/>
+            app:layout_constraintTop_toBottomOf="@+id/txtContactText" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/btnAddContactsPage" android:layout_marginTop="8dp"/>
 </android.support.constraint.ConstraintLayout>

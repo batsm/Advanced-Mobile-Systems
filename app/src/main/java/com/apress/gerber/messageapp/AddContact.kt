@@ -47,13 +47,8 @@ class AddContact : AppCompatActivity() {
                    if (dataSnapshot!!.exists()) {
                        var myUsername = re.replace(user!!.email.toString(), "")
                        email = re.replace(email, "")
-
-                       Log.d("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII", myUsername)
-                       Log.d("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII", email)
-
                        for (i in dataSnapshot.children) {
                             val useremail = i.key.toString()
-                           Log.d("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII LOOP", useremail)
                            if (useremail == email){
                                 foundUser = true
                             }
@@ -66,18 +61,11 @@ class AddContact : AppCompatActivity() {
                            } else {
                                "$theirUsername-$myUsername"
                            }
-                           database.child("chat").child(combinedUsername).push().setValue("Start of conversation")
-
+                           Log.d("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE", "start of convo")
                            database.child("users").child(myUsername).child(combinedUsername).setValue("Chat")
                            database.child("users").child(theirUsername).child(combinedUsername).setValue("Chat")
-                            showMessage(view, "Found user")
-                           /*
-                           var tests: String = conversationdatabase.toString()
-                           userdatabase.child(userEmail).child(tests).setValue("ConversationID")//.setValue(fbAuth.currentUser!!.uid)
-                           userdatabase.child(user!!.email.toString()).child(tests).setValue("ConversationID")//setValue(fbAuth.currentUser!!.uid)
-                           //conversationdatabase.child(fbAuth.currentUser!!.uid).setValue("New Conversation")
-                           conversationdatabase.child("Message").setValue("Conversation Started")
-                           showMessage(view, "User Added!")*/
+                           database.child("chat").child(combinedUsername).push().setValue("")
+                           showMessage(view, "Added user")
                        } else {
                            showMessage(view, "Error: User not found")
                        }
@@ -86,22 +74,6 @@ class AddContact : AppCompatActivity() {
             })
         }
     }
-
-/*
-    fun getNewConvoID(convoData: DatabaseReference) {
-        //createConversation(conversationdatabase)
-        convoData.addValueEventListener(object: ValueEventListener{
-            override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot!!.exists()) {
-                    convoID = dataSnapshot.key + 1
-                }
-            }
-        })
-    }*/
 
     fun showMessage(view: View, message: String) {
         Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE).setAction("Action", null).show()

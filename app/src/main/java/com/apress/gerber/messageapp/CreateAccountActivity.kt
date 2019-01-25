@@ -46,34 +46,12 @@ class CreateAccountActivity : AppCompatActivity() {
         database = FirebaseDatabase.getInstance().reference
         usernameTaken = false
 
-        database.child("users").addValueEventListener(object: ValueEventListener{
-            override fun onCancelled(p0: DatabaseError) {
-            }
-
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (i in dataSnapshot.children){
-                    Log.d("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII Snapshot", i.key.toString())
-                    if (txtUsername.text.toString() == i.key.toString())
-                    {
-                        showMessage(view, "Error: Username already taken")
-                        usernameTaken = true
-                        Log.d("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII MATCH", i.key.toString())
-                    }
-                }
-            }
-        })
-
-        if (!usernameTaken) {
             fbAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        //go to next activity here if success
-
-                        //database = FirebaseDatabase.getInstance().reference
-
                         var UsernameEmail = re.replace(email, "")
-                        database.child("users").child(txtUsername.text.toString())
-                            .setValue(UsernameEmail)//.child(UsernameEmail)//.push().setValue(email)
+                        database.child("users").child(UsernameEmail).push().setValue(email)
+                            //.setValue(UsernameEmail)//.child(UsernameEmail)//
                         showMessage(view, "Account created!")
 
                         /*
@@ -92,7 +70,6 @@ class CreateAccountActivity : AppCompatActivity() {
                     } else {
                         showMessage(view, "Error: ${task.exception?.message}")
                     }
-                }
         }
     }
 
